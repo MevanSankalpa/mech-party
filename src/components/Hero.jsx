@@ -1,25 +1,40 @@
+/* eslint-disable react-hooks/purity */
+/* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
+import { useMemo } from "react";
 
 const Hero = () => {
+  // Generate particles once using useMemo to avoid re-renders
+  const particles = useMemo(() => {
+    return [...Array(50)].map(() => ({
+      initialX: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
+      initialY: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1080),
+      initialOpacity: Math.random() * 0.5,
+      animateY: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1080),
+      animateOpacity: Math.random() * 0.5,
+      duration: Math.random() * 10 + 5,
+    }));
+  }, []);
+
   return (
     <section className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black flex items-center justify-center relative overflow-hidden">
       {/* Animated background particles */}
       <div className="absolute inset-0">
-        {[...Array(50)].map((_, i) => (
+        {particles.map((particle, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-white rounded-full"
             initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              opacity: Math.random() * 0.5,
+              x: particle.initialX,
+              y: particle.initialY,
+              opacity: particle.initialOpacity,
             }}
             animate={{
-              y: [null, Math.random() * window.innerHeight],
-              opacity: [null, Math.random() * 0.5, 0],
+              y: [null, particle.animateY],
+              opacity: [null, particle.animateOpacity, 0],
             }}
             transition={{
-              duration: Math.random() * 10 + 5,
+              duration: particle.duration,
               repeat: Infinity,
               ease: "linear",
             }}

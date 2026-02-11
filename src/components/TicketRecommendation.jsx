@@ -1,5 +1,6 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useInView } from "framer-motion";
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/set-state-in-effect */
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {

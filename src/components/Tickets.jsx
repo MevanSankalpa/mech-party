@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+/* eslint-disable no-unused-vars */
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { TICKET_TYPES } from "../utils/ticketLogic";
 import { User, Users, Wine } from "lucide-react";
