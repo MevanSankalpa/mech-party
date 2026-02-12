@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import PurchaseForm from "./pages/PurchaseForm";
 import Loader from "./components/Loader";
@@ -22,7 +22,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-black">
-      <Router basename="/mech-party">
+      <Router>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/purchase" element={<PurchaseForm />} />
@@ -33,4 +33,3 @@ function App() {
 }
 
 export default App;
-
