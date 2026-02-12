@@ -1,5 +1,7 @@
 // Ticket recommendation logic based on user preferences
 
+export const EARLY_BIRD_ON = true;
+
 export const TICKET_TYPES = {
   NORMAL_SINGLE: {
     name: "Normal Single Person",
@@ -12,7 +14,8 @@ export const TICKET_TYPES = {
     name: "Normal Single Person with Liquor",
     price: 12500,
     earlyBird: 11500,
-    description: "Welcome drink, premium dinner buffet, unlimited bites, unlimited liquor",
+    description:
+      "Welcome drink, premium dinner buffet, unlimited bites, unlimited liquor",
     message: null,
   },
   NORMAL_SINGLE_SAME_BATCH: {
@@ -20,78 +23,94 @@ export const TICKET_TYPES = {
     price: 11000,
     earlyBird: 9900,
     description: "Welcome drink, premium dinner buffet, unlimited bites",
-    message: "Since your partner is from the same batch, they'll have their own ticket! 🎉",
+    message:
+      "Since your partner is from the same batch, they'll have their own ticket! 🎉",
   },
   NORMAL_SINGLE_LIQUOR_SAME_BATCH: {
     name: "Normal Single Person with Liquor",
     price: 12500,
     earlyBird: 11500,
-    description: "Welcome drink, premium dinner buffet, unlimited bites, unlimited liquor",
-    message: "Since your partner is from the same batch, they'll have their own ticket! 🎉",
+    description:
+      "Welcome drink, premium dinner buffet, unlimited bites, unlimited liquor",
+    message:
+      "Since your partner is from the same batch, they'll have their own ticket! 🎉",
   },
   COUPLE: {
     name: "Couple",
     price: 20000,
     earlyBird: 19000,
-    description: "Welcome drink, premium dinner buffet, unlimited bites (for 2)",
+    description:
+      "Welcome drink, premium dinner buffet, unlimited bites (for 2)",
     message: null,
   },
   COUPLE_LIQUOR: {
     name: "Couple with Liquor",
     price: 22000,
     earlyBird: 21000,
-    description: "Welcome drink, premium dinner buffet, unlimited bites, unlimited liquor (for 2)",
+    description:
+      "Welcome drink, premium dinner buffet, unlimited bites, unlimited liquor (for 2)",
     message: null,
   },
 };
 
-export const getTicketRecommendation = (drinks, hasPartner, partnerSameBatch, drinksWithPartner) => {
+export const getTicketRecommendation = (
+  drinks,
+  hasPartner,
+  partnerSameBatch,
+  drinksWithPartner,
+) => {
   // Logic based on questionnaire
-  
+
   // Single, no drinking
   if (!drinks && !hasPartner) {
     return TICKET_TYPES.NORMAL_SINGLE;
   }
-  
+
   // Single, with drinking
   if (drinks && !hasPartner) {
     return TICKET_TYPES.NORMAL_SINGLE_LIQUOR;
   }
-  
+
   // Has partner, same batch, no drinking
   if (!drinks && hasPartner && partnerSameBatch) {
     return TICKET_TYPES.NORMAL_SINGLE_SAME_BATCH;
   }
-  
+
   // Has partner, same batch, with drinking but not with partner
   if (drinks && hasPartner && partnerSameBatch && !drinksWithPartner) {
     return TICKET_TYPES.NORMAL_SINGLE_SAME_BATCH;
   }
-  
+
   // Has partner, same batch, drinking with partner
   if (drinks && hasPartner && partnerSameBatch && drinksWithPartner) {
     return TICKET_TYPES.NORMAL_SINGLE_LIQUOR_SAME_BATCH;
   }
-  
+
   // Has partner, different batch, no drinking
   if (!drinks && hasPartner && !partnerSameBatch) {
     return TICKET_TYPES.COUPLE;
   }
-  
+
   // Has partner, different batch, drinking but not with partner
   if (drinks && hasPartner && !partnerSameBatch && !drinksWithPartner) {
     return TICKET_TYPES.COUPLE;
   }
-  
+
   // Has partner, different batch, drinking with partner
   if (drinks && hasPartner && !partnerSameBatch && drinksWithPartner) {
     return TICKET_TYPES.COUPLE_LIQUOR;
   }
-  
+
   return TICKET_TYPES.NORMAL_SINGLE;
 };
 
-export const saveRecommendation = (drinks, hasPartner, partnerSameBatch, drinksWithPartner, recommendedTicket) => {
+export const saveRecommendation = (
+  drinks,
+  hasPartner,
+  partnerSameBatch,
+  drinksWithPartner,
+  recommendedTicket,
+) => {
   const data = {
     drinks,
     hasPartner,
@@ -101,7 +120,7 @@ export const saveRecommendation = (drinks, hasPartner, partnerSameBatch, drinksW
     message: recommendedTicket.message,
     timestamp: Date.now(),
   };
-  
+
   localStorage.setItem("ticketRecommendation", JSON.stringify(data));
 };
 

@@ -8,6 +8,7 @@ import {
   saveRecommendation,
   loadRecommendation,
   clearRecommendation,
+  EARLY_BIRD_ON,
 } from "../utils/ticketLogic";
 import { Check, X, RotateCcw } from "lucide-react";
 
@@ -36,12 +37,12 @@ const TicketRecommendation = () => {
         partnerSameBatch: stored.partnerSameBatch ?? null,
         drinksWithPartner: stored.drinksWithPartner,
       });
-      
+
       const ticket = getTicketRecommendation(
         stored.drinks,
         stored.hasPartner,
         stored.partnerSameBatch ?? null,
-        stored.drinksWithPartner
+        stored.drinksWithPartner,
       );
       setRecommendation(ticket);
       setShowRecommendation(true);
@@ -63,7 +64,7 @@ const TicketRecommendation = () => {
           newAnswers.drinks,
           value,
           null,
-          null
+          null,
         );
         setRecommendation(ticket);
         saveRecommendation(newAnswers.drinks, value, null, null, ticket);
@@ -84,10 +85,16 @@ const TicketRecommendation = () => {
           newAnswers.drinks,
           newAnswers.hasPartner,
           value,
-          null
+          null,
         );
         setRecommendation(ticket);
-        saveRecommendation(newAnswers.drinks, newAnswers.hasPartner, value, null, ticket);
+        saveRecommendation(
+          newAnswers.drinks,
+          newAnswers.hasPartner,
+          value,
+          null,
+          ticket,
+        );
         setShowRecommendation(true);
         setStep(4);
       }
@@ -96,10 +103,16 @@ const TicketRecommendation = () => {
         newAnswers.drinks,
         newAnswers.hasPartner,
         newAnswers.partnerSameBatch,
-        value
+        value,
       );
       setRecommendation(ticket);
-      saveRecommendation(newAnswers.drinks, newAnswers.hasPartner, newAnswers.partnerSameBatch, value, ticket);
+      saveRecommendation(
+        newAnswers.drinks,
+        newAnswers.hasPartner,
+        newAnswers.partnerSameBatch,
+        value,
+        ticket,
+      );
       setShowRecommendation(true);
       setStep(4);
     }
@@ -173,32 +186,52 @@ const TicketRecommendation = () => {
             <div className="mb-8 space-y-4">
               <div className="flex items-center justify-between text-gray-300">
                 <span>Do you drink? 🍹</span>
-                <span className={answers.drinks ? "text-green-400" : "text-red-400"}>
+                <span
+                  className={answers.drinks ? "text-green-400" : "text-red-400"}
+                >
                   {answers.drinks ? "Yes ✓" : "No ✗"}
                 </span>
               </div>
               <div className="flex items-center justify-between text-gray-300">
                 <span>Do you have a girlfriend/boyfriend? 💑</span>
-                <span className={answers.hasPartner ? "text-green-400" : "text-red-400"}>
+                <span
+                  className={
+                    answers.hasPartner ? "text-green-400" : "text-red-400"
+                  }
+                >
                   {answers.hasPartner ? "Yes ✓" : "No ✗"}
                 </span>
               </div>
               {answers.hasPartner && answers.partnerSameBatch !== null && (
                 <div className="flex items-center justify-between text-gray-300">
                   <span>Is your partner from the same batch? 🎓</span>
-                  <span className={answers.partnerSameBatch ? "text-green-400" : "text-red-400"}>
+                  <span
+                    className={
+                      answers.partnerSameBatch
+                        ? "text-green-400"
+                        : "text-red-400"
+                    }
+                  >
                     {answers.partnerSameBatch ? "Yes ✓" : "No ✗"}
                   </span>
                 </div>
               )}
-              {answers.drinks && answers.hasPartner && answers.drinksWithPartner !== null && (
-                <div className="flex items-center justify-between text-gray-300">
-                  <span>Do you drink when your partner is around? 🥂</span>
-                  <span className={answers.drinksWithPartner ? "text-green-400" : "text-red-400"}>
-                    {answers.drinksWithPartner ? "Yes ✓" : "No ✗"}
-                  </span>
-                </div>
-              )}
+              {answers.drinks &&
+                answers.hasPartner &&
+                answers.drinksWithPartner !== null && (
+                  <div className="flex items-center justify-between text-gray-300">
+                    <span>Do you drink when your partner is around? 🥂</span>
+                    <span
+                      className={
+                        answers.drinksWithPartner
+                          ? "text-green-400"
+                          : "text-red-400"
+                      }
+                    >
+                      {answers.drinksWithPartner ? "Yes ✓" : "No ✗"}
+                    </span>
+                  </div>
+                )}
               <div className="border-t border-gray-700 pt-4"></div>
             </div>
           )}
@@ -255,14 +288,14 @@ const TicketRecommendation = () => {
                 <h3 className="text-3xl text-white mb-4">
                   🎉 Perfect Match Found!
                 </h3>
-                <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg p-8 mb-6">
+                <div className="bg-linear-to-br from-blue-600 to-purple-600 rounded-lg p-8 mb-6">
                   <h4 className="text-2xl font-bold text-white mb-4">
                     {recommendation?.name}
                   </h4>
                   <p className="text-gray-200 text-sm mb-6">
                     {recommendation?.description}
                   </p>
-                  
+
                   {/* Custom Message Display */}
                   {recommendation?.message && (
                     <div className="bg-yellow-400/20 border border-yellow-400 rounded-lg p-4 mb-6">
@@ -271,33 +304,50 @@ const TicketRecommendation = () => {
                       </p>
                     </div>
                   )}
-                  
+
                   {/* Pricing Section */}
                   <div className="bg-black/30 rounded-lg p-6 mb-4">
-                    <div className="flex items-center justify-center gap-4 mb-2">
-                      <div className="text-left">
-                        <p className="text-gray-300 text-sm mb-1">Regular Price:</p>
-                        <p className="text-white line-through text-xl">
+                    {EARLY_BIRD_ON ? (
+                      <>
+                        <div className="flex items-center justify-center gap-4 mb-2">
+                          <div className="text-left">
+                            <p className="text-gray-300 text-sm mb-1">
+                              Regular Price:
+                            </p>
+                            <p className="text-white line-through text-xl">
+                              Rs {recommendation?.price.toLocaleString()}
+                            </p>
+                          </div>
+                          <div className="text-4xl">→</div>
+                          <div className="text-right">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded">
+                                EARLY BIRD
+                              </span>
+                            </div>
+                            <p className="text-yellow-400 text-3xl font-bold">
+                              Rs {recommendation?.earlyBird.toLocaleString()}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="mt-4 pt-4 border-t border-white/20">
+                          <p className="text-green-400 font-semibold text-lg">
+                            💰 Save Rs{" "}
+                            {(
+                              recommendation?.price - recommendation?.earlyBird
+                            ).toLocaleString()}
+                            !
+                          </p>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-center">
+                        <p className="text-gray-300 text-sm mb-1">Price:</p>
+                        <p className="text-white text-3xl font-bold">
                           Rs {recommendation?.price.toLocaleString()}
                         </p>
                       </div>
-                      <div className="text-4xl">→</div>
-                      <div className="text-right">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded">
-                            EARLY BIRD
-                          </span>
-                        </div>
-                        <p className="text-yellow-400 text-3xl font-bold">
-                          Rs {recommendation?.earlyBird.toLocaleString()}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mt-4 pt-4 border-t border-white/20">
-                      <p className="text-green-400 font-semibold text-lg">
-                        💰 Save Rs {(recommendation?.price - recommendation?.earlyBird).toLocaleString()}!
-                      </p>
-                    </div>
+                    )}
                   </div>
                 </div>
                 <div className="flex justify-center gap-4">
