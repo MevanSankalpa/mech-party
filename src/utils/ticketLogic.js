@@ -63,8 +63,13 @@ export const getTicketRecommendation = (drinks, hasPartner, partnerSameBatch, dr
     return TICKET_TYPES.NORMAL_SINGLE_SAME_BATCH;
   }
   
-  // Has partner, same batch, with drinking
-  if (drinks && hasPartner && partnerSameBatch) {
+  // Has partner, same batch, with drinking but not with partner
+  if (drinks && hasPartner && partnerSameBatch && !drinksWithPartner) {
+    return TICKET_TYPES.NORMAL_SINGLE_SAME_BATCH;
+  }
+  
+  // Has partner, same batch, drinking with partner
+  if (drinks && hasPartner && partnerSameBatch && drinksWithPartner) {
     return TICKET_TYPES.NORMAL_SINGLE_LIQUOR_SAME_BATCH;
   }
   
