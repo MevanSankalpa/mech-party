@@ -16,6 +16,129 @@ import {
 
 const PURCHASE_FORM_DRAFT_KEY = "purchaseFormDraft";
 
+const INDEX_OPTIONS = [
+  "200002L",
+  "200005A",
+  "200008K",
+  "200009N",
+  "200011M",
+  "200013V",
+  "200018P",
+  "200020N",
+  "200024F",
+  "200025J",
+  "200028V",
+  "200032D",
+  "200033G",
+  "200034K",
+  "200038C",
+  "200042H",
+  "200048G",
+  "200049K",
+  "200050F",
+  "200052M",
+  "200053R",
+  "200055B",
+  "200067M",
+  "200077T",
+  "200079C",
+  "200092J",
+  "200102T",
+  "200104C",
+  "200107M",
+  "200111U",
+  "200112A",
+  "200122E",
+  "200125P",
+  "200139L",
+  "200140G",
+  "200147J",
+  "200152U",
+  "200156K",
+  "200158T",
+  "200159X",
+  "200167U",
+  "200171C",
+  "200184T",
+  "200208A",
+  "200209D",
+  "200214M",
+  "200221G",
+  "200229M",
+  "200231L",
+  "200243B",
+  "200246L",
+  "200249A",
+  "200268F",
+  "200271H",
+  "200275A",
+  "200278K",
+  "200281M",
+  "200290N",
+  "200319N",
+  "200320J",
+  "200326H",
+  "200329U",
+  "200354P",
+  "200364V",
+  "200372T",
+  "200376J",
+  "200379V",
+  "200383D",
+  "200388X",
+  "200402M",
+  "200403R",
+  "200408L",
+  "200412T",
+  "200414C",
+  "200433H",
+  "200457J",
+  "200459R",
+  "200460L",
+  "200467N",
+  "200469X",
+  "200471V",
+  "200474H",
+  "200491G",
+  "200509X",
+  "200527B",
+  "200539M",
+  "200541L",
+  "200561X",
+  "200567V",
+  "200577C",
+  "200579J",
+  "200581H",
+  "200585A",
+  "200602C",
+  "200615T",
+  "200625A",
+  "200630J",
+  "200649B",
+  "200651A",
+  "200653G",
+  "200660B",
+  "200661E",
+  "200667D",
+  "200684C",
+  "200690P",
+  "200696N",
+  "200703L",
+  "200707D",
+  "200711J",
+  "200714V",
+  "200736N",
+  "200737T",
+  "200738X",
+  "200747A",
+  "200751F",
+  "200756B",
+  "200757E",
+  "200758H",
+  "200760G",
+  "200764X",
+];
+
 const TICKET_VALUE_MAP = {
   [TICKET_TYPES.NORMAL_SINGLE.name.toLowerCase()]: "single/without-liquor",
   [TICKET_TYPES.NORMAL_SINGLE_SAME_BATCH.name.toLowerCase()]:
@@ -45,11 +168,11 @@ const PurchaseForm = () => {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [imageUploadLoading, setImageUploadLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
-  const [index, setIndex] = useState("200581H");
-  const [email, setEmail] = useState("mevan@mailinator.com");
-  const [whatsApp, setWhatsApp] = useState("0715683158");
-  const [name, setName] = useState("Mevan");
-  const [partner, setPartner] = useState("Jesmin");
+  const [index, setIndex] = useState("");
+  const [email, setEmail] = useState("");
+  const [whatsApp, setWhatsApp] = useState("");
+  const [name, setName] = useState("");
+  const [partner, setPartner] = useState("");
   const [ticket, setTicket] = useState("single/with-liquor");
   const [isDraftHydrated, setIsDraftHydrated] = useState(false);
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
@@ -99,6 +222,7 @@ const PurchaseForm = () => {
       ? selectedTicketType.earlyBird
       : selectedTicketType.price
     : null;
+  const isCoupleTicket = ticket.startsWith("couple/");
   const isFormBusy = submitLoading || imageUploadLoading;
 
   useEffect(() => {
@@ -129,12 +253,19 @@ const PurchaseForm = () => {
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
+    const normalizedIndex = index.trim().toUpperCase();
+
     const hasRequiredFields =
-      index.trim() &&
+      normalizedIndex &&
       email.trim() &&
       whatsApp.trim() &&
       name.trim() &&
-      partner.trim();
+      (!isCoupleTicket || partner.trim());
+
+    if (!INDEX_OPTIONS.includes(normalizedIndex)) {
+      alert("Please select a valid index number from the list.");
+      return;
+    }
 
     if (!hasRequiredFields || !imageUrl) {
       alert("Please complete all required fields and upload the payment slip.");
@@ -146,11 +277,11 @@ const PurchaseForm = () => {
     const formData = new FormData();
 
     formData.append("Date", new Date().toLocaleString());
-    formData.append("Index", index);
+    formData.append("Index", normalizedIndex);
     formData.append("Email", email);
     formData.append("WhatsApp", whatsApp);
     formData.append("Name", name);
-    formData.append("Partner", partner);
+    formData.append("Partner", isCoupleTicket ? partner : "");
     formData.append("Ticket", ticket);
     formData.append("Payment", imageUrl);
     formData.append("Early", EARLY_BIRD_ON ? "Yes" : "No");
@@ -179,6 +310,15 @@ const PurchaseForm = () => {
   const handleUpload = (event) => {
     const file = event.target.files[0];
     if (!file) return;
+
+    const isPdf = file.type === "application/pdf";
+    const isImage = file.type.startsWith("image/");
+
+    if (!isPdf && !isImage) {
+      alert("Please upload only a PDF or image file.");
+      event.target.value = "";
+      return;
+    }
 
     const reader = new FileReader();
 
@@ -292,11 +432,19 @@ const PurchaseForm = () => {
                   <input
                     id="index"
                     type="text"
+                    list="index-options"
                     value={index}
-                    onChange={(e) => setIndex(e.target.value)}
+                    onChange={(e) => setIndex(e.target.value.toUpperCase())}
                     className="w-full bg-gray-900 border border-gray-700 rounded-md px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    placeholder="Start typing to search your index number"
+                    autoComplete="off"
                     required
                   />
+                  <datalist id="index-options">
+                    {INDEX_OPTIONS.map((option) => (
+                      <option key={option} value={option} />
+                    ))}
+                  </datalist>
                 </div>
 
                 <div>
@@ -350,22 +498,24 @@ const PurchaseForm = () => {
                   />
                 </div>
 
-                <div>
-                  <label
-                    className="block text-white font-medium mb-2"
-                    htmlFor="partner"
-                  >
-                    Partner&apos;s Name (First Name & Last Name)
-                  </label>
-                  <input
-                    id="partner"
-                    type="text"
-                    value={partner}
-                    onChange={(e) => setPartner(e.target.value)}
-                    className="w-full bg-gray-900 border border-gray-700 rounded-md px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    required
-                  />
-                </div>
+                {isCoupleTicket && (
+                  <div>
+                    <label
+                      className="block text-white font-medium mb-2"
+                      htmlFor="partner"
+                    >
+                      Partner&apos;s Name (First Name & Last Name)
+                    </label>
+                    <input
+                      id="partner"
+                      type="text"
+                      value={partner}
+                      onChange={(e) => setPartner(e.target.value)}
+                      className="w-full bg-gray-900 border border-gray-700 rounded-md px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                      required={isCoupleTicket}
+                    />
+                  </div>
+                )}
 
                 <div>
                   <label
@@ -411,7 +561,7 @@ const PurchaseForm = () => {
                     id="paymentSlip"
                     ref={paymentSlipInputRef}
                     type="file"
-                    accept="image/*"
+                    accept="image/*,.pdf,application/pdf"
                     onChange={handleUpload}
                     className="hidden"
                   />
