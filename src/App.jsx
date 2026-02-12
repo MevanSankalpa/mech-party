@@ -21,12 +21,14 @@ function App() {
   }
 
   return (
-    <Router basename="/mech-party">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/purchase" element={<PurchaseForm />} />
-      </Routes>
-    </Router>
+    <div className="min-h-screen bg-black">
+      <Router basename="/mech-party">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/purchase" element={<PurchaseForm />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
