@@ -7,10 +7,16 @@ const Hero = () => {
   // Generate particles once using useMemo to avoid re-renders
   const particles = useMemo(() => {
     return [...Array(50)].map(() => ({
-      initialX: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
-      initialY: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1080),
+      initialX:
+        Math.random() *
+        (typeof window !== "undefined" ? window.innerWidth : 1920),
+      initialY:
+        Math.random() *
+        (typeof window !== "undefined" ? window.innerHeight : 1080),
       initialOpacity: Math.random() * 0.5,
-      animateY: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1080),
+      animateY:
+        Math.random() *
+        (typeof window !== "undefined" ? window.innerHeight : 1080),
       animateOpacity: Math.random() * 0.5,
       duration: Math.random() * 10 + 5,
     }));
@@ -49,7 +55,13 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <h1 className="text-6xl md:text-8xl font-bold text-white mb-4">
+          <h1
+            className="text-6xl md:text-8xl font-bold text-white mb-4"
+            style={{
+              fontFamily: "Bonfire, sans-serif",
+              textTransform: "uppercase",
+            }}
+          >
             ZYNENTIA
           </h1>
           <div className="w-32 h-1 bg-white mx-auto mb-8"></div>
