@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Camera, Music, Shirt, Gift, PartyPopper, Video } from "lucide-react";
+import { Camera, Music, Crown, Gift, PartyPopper, Video } from "lucide-react";
 
 const Events = () => {
   const ref = useRef(null);
@@ -27,10 +27,10 @@ const Events = () => {
       emoji: "🎸",
     },
     {
-      icon: Shirt,
-      title: "Costume Competition",
-      description: "Show off your best party outfit and win prizes",
-      emoji: "👔",
+      icon: Crown,
+      title: "The Grand Mr. and Mrs. Ball Showdown",
+      description: "Compete for the crown in our spectacular ball competition",
+      emoji: "👑",
     },
     {
       icon: Gift,

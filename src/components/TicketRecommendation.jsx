@@ -229,15 +229,40 @@ const TicketRecommendation = () => {
                   🎉 Perfect Match Found!
                 </h3>
                 <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg p-8 mb-6">
-                  <h4 className="text-2xl font-bold text-white mb-2">
+                  <h4 className="text-2xl font-bold text-white mb-4">
                     {recommendation?.name}
                   </h4>
-                  <p className="text-white text-lg mb-4">
-                    Rs {recommendation?.earlyBird.toLocaleString()}
-                  </p>
-                  <p className="text-gray-200 text-sm">
+                  <p className="text-gray-200 text-sm mb-6">
                     {recommendation?.description}
                   </p>
+                  
+                  {/* Pricing Section */}
+                  <div className="bg-black/30 rounded-lg p-6 mb-4">
+                    <div className="flex items-center justify-center gap-4 mb-2">
+                      <div className="text-left">
+                        <p className="text-gray-300 text-sm mb-1">Regular Price:</p>
+                        <p className="text-white line-through text-xl">
+                          Rs {recommendation?.price.toLocaleString()}
+                        </p>
+                      </div>
+                      <div className="text-4xl">→</div>
+                      <div className="text-right">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded">
+                            EARLY BIRD
+                          </span>
+                        </div>
+                        <p className="text-yellow-400 text-3xl font-bold">
+                          Rs {recommendation?.earlyBird.toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-white/20">
+                      <p className="text-green-400 font-semibold text-lg">
+                        💰 Save Rs {(recommendation?.price - recommendation?.earlyBird).toLocaleString()}!
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 <div className="flex justify-center gap-4">
                   <motion.button

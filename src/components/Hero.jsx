@@ -64,12 +64,12 @@ const Hero = () => {
             whileTap={{ scale: 0.95 }}
             className="bg-white text-black px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-200 transition-colors"
             onClick={() => {
-              document.getElementById("tickets")?.scrollIntoView({
+              document.getElementById("hotel-showcase")?.scrollIntoView({
                 behavior: "smooth",
               });
             }}
           >
-            Get Your Tickets
+            Explore More
           </motion.button>
         </motion.div>
       </div>
