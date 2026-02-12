@@ -74,8 +74,12 @@ const TicketRecommendation = () => {
         setStep(2);
       }
     } else if (question === "partnerSameBatch") {
-      if (value) {
-        // Partner is same batch - calculate recommendation immediately
+      // Check if user drinks to decide whether to ask Question 4
+      if (newAnswers.drinks) {
+        // Ask about drinking with partner (for both same and different batch)
+        setStep(3);
+      } else {
+        // Doesn't drink
         const ticket = getTicketRecommendation(
           newAnswers.drinks,
           newAnswers.hasPartner,
@@ -86,24 +90,6 @@ const TicketRecommendation = () => {
         saveRecommendation(newAnswers.drinks, newAnswers.hasPartner, value, null, ticket);
         setShowRecommendation(true);
         setStep(4);
-      } else {
-        // Partner is different batch
-        if (newAnswers.drinks) {
-          // Ask about drinking with partner
-          setStep(3);
-        } else {
-          // Doesn't drink - recommend couple ticket
-          const ticket = getTicketRecommendation(
-            newAnswers.drinks,
-            newAnswers.hasPartner,
-            value,
-            null
-          );
-          setRecommendation(ticket);
-          saveRecommendation(newAnswers.drinks, newAnswers.hasPartner, value, null, ticket);
-          setShowRecommendation(true);
-          setStep(4);
-        }
       }
     } else if (question === "drinksWithPartner") {
       const ticket = getTicketRecommendation(
@@ -205,7 +191,7 @@ const TicketRecommendation = () => {
                   </span>
                 </div>
               )}
-              {answers.drinks && answers.hasPartner && !answers.partnerSameBatch && answers.drinksWithPartner !== null && (
+              {answers.drinks && answers.hasPartner && answers.drinksWithPartner !== null && (
                 <div className="flex items-center justify-between text-gray-300">
                   <span>Do you drink when your partner is around? 🥂</span>
                   <span className={answers.drinksWithPartner ? "text-green-400" : "text-red-400"}>
