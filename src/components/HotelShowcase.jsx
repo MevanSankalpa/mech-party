@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import hotelBand from "../assets/images/hotel/hotel-1.jpeg";
 
 const HotelShowcase = () => {
   const ref = useRef(null);
@@ -8,9 +9,10 @@ const HotelShowcase = () => {
 
   // Placeholder images for luxury hotel/banquet halls
   const images = [
-    "https://images.unsplash.com/photo-1519167758481-83f29da8ee8d?w=800",
-    "https://images.unsplash.com/photo-1464047736614-af63643285bf?w=800",
-    "https://images.unsplash.com/photo-1470229538611-16ba8c7ffbd7?w=800",
+    "https://www.watersedge.lk/wp-content/uploads/2017/12/The-View-imag2.jpg",
+    "https://www.watersedge.lk/wp-content/uploads/2017/12/The-View-image-1.jpg",
+    // "https://images.unsplash.com/photo-1470229538611-16ba8c7ffbd7?w=800",
+    hotelBand,
   ];
 
   return (
@@ -49,16 +51,17 @@ const HotelShowcase = () => {
           ))}
         </div>
 
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.6 }}
           className="mt-12 text-center text-gray-400"
         >
           <p className="text-sm">
-            * Images are placeholders and will be replaced with actual venue photos
+            * Images are placeholders and will be replaced with actual venue
+            photos
           </p>
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );
