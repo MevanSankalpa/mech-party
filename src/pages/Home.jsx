@@ -2,7 +2,6 @@ import Hero from "../components/Hero";
 import HotelShowcase from "../components/HotelShowcase";
 import Events from "../components/Events";
 import Benefits from "../components/Benefits";
-import Tickets from "../components/Tickets";
 import TicketRecommendation from "../components/TicketRecommendation";
 
 const Home = () => {
@@ -12,7 +11,6 @@ const Home = () => {
       <HotelShowcase />
       <Events />
       <Benefits />
-      <Tickets />
       <TicketRecommendation />
     </div>
   );

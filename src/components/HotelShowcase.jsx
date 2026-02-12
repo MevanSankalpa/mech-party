@@ -16,7 +16,7 @@ const HotelShowcase = () => {
   ];
 
   return (
-    <section ref={ref} className="min-h-screen bg-black py-20 px-4">
+    <section id="hotel-showcase" ref={ref} className="min-h-screen bg-black py-20 px-4">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -62,6 +62,26 @@ const HotelShowcase = () => {
             photos
           </p>
         </motion.div> */}
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="mt-16 text-center"
+        >
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-white text-black px-10 py-4 rounded-full text-lg font-semibold hover:bg-gray-200 transition-all shadow-lg hover:shadow-xl"
+            onClick={() => {
+              document.getElementById("recommendation")?.scrollIntoView({
+                behavior: "smooth",
+              });
+            }}
+          >
+            Get Your Tickets
+          </motion.button>
+        </motion.div>
       </div>
     </section>
   );
