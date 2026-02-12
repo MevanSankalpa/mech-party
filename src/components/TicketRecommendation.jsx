@@ -128,7 +128,7 @@ const TicketRecommendation = () => {
     });
     setRecommendation(null);
     setShowRecommendation(false);
-    clearRecommendation();
+    localStorage.clear();
   };
 
   const handleBuyNow = () => {
