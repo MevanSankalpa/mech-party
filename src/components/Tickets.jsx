@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { TICKET_TYPES } from "../utils/ticketLogic";
+import { TICKET_TYPES, EARLY_BIRD_ON } from "../utils/ticketLogic";
 import { User, Users, Wine } from "lucide-react";
 
 const Tickets = () => {
@@ -32,7 +32,11 @@ const Tickets = () => {
   ];
 
   return (
-    <section id="tickets" ref={ref} className="min-h-screen bg-gray-900 py-20 px-4">
+    <section
+      id="tickets"
+      ref={ref}
+      className="min-h-screen bg-gray-900 py-20 px-4"
+    >
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -46,9 +50,11 @@ const Tickets = () => {
           <p className="text-gray-400 text-lg mb-2">
             Choose the perfect ticket for your experience
           </p>
-          <p className="text-yellow-400 font-semibold text-xl">
-            🎟️ Early Bird Pricing Available!
-          </p>
+          {EARLY_BIRD_ON && (
+            <p className="text-yellow-400 font-semibold text-xl">
+              🎟️ Early Bird Pricing Available!
+            </p>
+          )}
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -62,7 +68,7 @@ const Tickets = () => {
               className="bg-black rounded-lg overflow-hidden border border-gray-800 hover:border-white transition-colors"
             >
               <div
-                className={`bg-gradient-to-br ${ticket.gradient} p-6 flex items-center justify-center`}
+                className={`bg-linear-to-br ${ticket.gradient} p-6 flex items-center justify-center`}
               >
                 <ticket.icon size={60} className="text-white" />
               </div>
@@ -74,13 +80,23 @@ const Tickets = () => {
                   {ticket.type.description}
                 </p>
                 <div className="mb-4">
-                  <div className="text-gray-400 line-through text-sm">
-                    Rs {ticket.type.price.toLocaleString()}
-                  </div>
-                  <div className="text-2xl font-bold text-yellow-400">
-                    Rs {ticket.type.earlyBird.toLocaleString()}
-                  </div>
-                  <div className="text-xs text-yellow-400">Early Bird Price</div>
+                  {EARLY_BIRD_ON ? (
+                    <>
+                      <div className="text-gray-400 line-through text-sm">
+                        Rs {ticket.type.price.toLocaleString()}
+                      </div>
+                      <div className="text-2xl font-bold text-yellow-400">
+                        Rs {ticket.type.earlyBird.toLocaleString()}
+                      </div>
+                      <div className="text-xs text-yellow-400">
+                        Early Bird Price
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-2xl font-bold text-white">
+                      Rs {ticket.type.price.toLocaleString()}
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.div>
