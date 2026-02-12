@@ -20,6 +20,7 @@ const TicketRecommendation = () => {
   const [answers, setAnswers] = useState({
     drinks: null,
     hasPartner: null,
+    partnerSameBatch: null,
     drinksWithPartner: null,
   });
   const [recommendation, setRecommendation] = useState(null);
@@ -32,17 +33,19 @@ const TicketRecommendation = () => {
       setAnswers({
         drinks: stored.drinks,
         hasPartner: stored.hasPartner,
+        partnerSameBatch: stored.partnerSameBatch ?? null,
         drinksWithPartner: stored.drinksWithPartner,
       });
       
       const ticket = getTicketRecommendation(
         stored.drinks,
         stored.hasPartner,
+        stored.partnerSameBatch ?? null,
         stored.drinksWithPartner
       );
       setRecommendation(ticket);
       setShowRecommendation(true);
-      setStep(3); // Skip to recommendation display
+      setStep(4); // Skip to recommendation display
     }
   }, []);
 
@@ -51,50 +54,68 @@ const TicketRecommendation = () => {
     setAnswers(newAnswers);
 
     if (question === "drinks") {
-      if (!value) {
-        // If doesn't drink, skip to partner question
-        setStep(1);
-      } else {
-        // If drinks, go to partner question
-        setStep(1);
-      }
+      // Move to partner question
+      setStep(1);
     } else if (question === "hasPartner") {
-      if (!newAnswers.drinks) {
-        // If doesn't drink, calculate recommendation
+      if (!value) {
+        // No partner - calculate recommendation immediately
         const ticket = getTicketRecommendation(
           newAnswers.drinks,
           value,
+          null,
           null
         );
         setRecommendation(ticket);
-        saveRecommendation(newAnswers.drinks, value, null, ticket);
+        saveRecommendation(newAnswers.drinks, value, null, null, ticket);
         setShowRecommendation(true);
-        setStep(3);
-      } else if (!value) {
-        // Drinks but no partner - calculate recommendation
-        const ticket = getTicketRecommendation(
-          newAnswers.drinks,
-          value,
-          null
-        );
-        setRecommendation(ticket);
-        saveRecommendation(newAnswers.drinks, value, null, ticket);
-        setShowRecommendation(true);
-        setStep(3);
+        setStep(4);
       } else {
-        // Drinks and has partner - ask about drinking with partner
+        // Has partner - ask if same batch
         setStep(2);
+      }
+    } else if (question === "partnerSameBatch") {
+      if (value) {
+        // Partner is same batch - calculate recommendation immediately
+        const ticket = getTicketRecommendation(
+          newAnswers.drinks,
+          newAnswers.hasPartner,
+          value,
+          null
+        );
+        setRecommendation(ticket);
+        saveRecommendation(newAnswers.drinks, newAnswers.hasPartner, value, null, ticket);
+        setShowRecommendation(true);
+        setStep(4);
+      } else {
+        // Partner is different batch
+        if (newAnswers.drinks) {
+          // Ask about drinking with partner
+          setStep(3);
+        } else {
+          // Doesn't drink - recommend couple ticket
+          const ticket = getTicketRecommendation(
+            newAnswers.drinks,
+            newAnswers.hasPartner,
+            value,
+            null
+          );
+          setRecommendation(ticket);
+          saveRecommendation(newAnswers.drinks, newAnswers.hasPartner, value, null, ticket);
+          setShowRecommendation(true);
+          setStep(4);
+        }
       }
     } else if (question === "drinksWithPartner") {
       const ticket = getTicketRecommendation(
         newAnswers.drinks,
         newAnswers.hasPartner,
+        newAnswers.partnerSameBatch,
         value
       );
       setRecommendation(ticket);
-      saveRecommendation(newAnswers.drinks, newAnswers.hasPartner, value, ticket);
+      saveRecommendation(newAnswers.drinks, newAnswers.hasPartner, newAnswers.partnerSameBatch, value, ticket);
       setShowRecommendation(true);
-      setStep(3);
+      setStep(4);
     }
   };
 
@@ -103,6 +124,7 @@ const TicketRecommendation = () => {
     setAnswers({
       drinks: null,
       hasPartner: null,
+      partnerSameBatch: null,
       drinksWithPartner: null,
     });
     setRecommendation(null);
@@ -124,6 +146,12 @@ const TicketRecommendation = () => {
       id: "hasPartner",
       text: "Do you have a girlfriend/boyfriend? 💑",
       key: "hasPartner",
+    },
+    {
+      id: "partnerSameBatch",
+      text: "Is your partner from the same batch and department? 🎓",
+      subtitle: "20th Batch, Mechanical Engineering, University of Moratuwa",
+      key: "partnerSameBatch",
     },
     {
       id: "drinksWithPartner",
@@ -169,7 +197,15 @@ const TicketRecommendation = () => {
                   {answers.hasPartner ? "Yes ✓" : "No ✗"}
                 </span>
               </div>
-              {answers.drinks && answers.hasPartner && answers.drinksWithPartner !== null && (
+              {answers.hasPartner && answers.partnerSameBatch !== null && (
+                <div className="flex items-center justify-between text-gray-300">
+                  <span>Is your partner from the same batch? 🎓</span>
+                  <span className={answers.partnerSameBatch ? "text-green-400" : "text-red-400"}>
+                    {answers.partnerSameBatch ? "Yes ✓" : "No ✗"}
+                  </span>
+                </div>
+              )}
+              {answers.drinks && answers.hasPartner && !answers.partnerSameBatch && answers.drinksWithPartner !== null && (
                 <div className="flex items-center justify-between text-gray-300">
                   <span>Do you drink when your partner is around? 🥂</span>
                   <span className={answers.drinksWithPartner ? "text-green-400" : "text-red-400"}>
@@ -190,11 +226,16 @@ const TicketRecommendation = () => {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.5 }}
               >
-                {step < 3 && (
+                {step < 4 && (
                   <>
-                    <h3 className="text-2xl text-white mb-6 text-center">
+                    <h3 className="text-2xl text-white mb-2 text-center">
                       {questions[step]?.text}
                     </h3>
+                    {questions[step]?.subtitle && (
+                      <p className="text-gray-400 text-sm mb-6 text-center">
+                        {questions[step].subtitle}
+                      </p>
+                    )}
                     <div className="flex justify-center gap-4">
                       <motion.button
                         whileHover={{ scale: 1.05 }}
@@ -235,6 +276,15 @@ const TicketRecommendation = () => {
                   <p className="text-gray-200 text-sm mb-6">
                     {recommendation?.description}
                   </p>
+                  
+                  {/* Custom Message Display */}
+                  {recommendation?.message && (
+                    <div className="bg-yellow-400/20 border border-yellow-400 rounded-lg p-4 mb-6">
+                      <p className="text-yellow-100 font-medium">
+                        💡 {recommendation.message}
+                      </p>
+                    </div>
+                  )}
                   
                   {/* Pricing Section */}
                   <div className="bg-black/30 rounded-lg p-6 mb-4">
