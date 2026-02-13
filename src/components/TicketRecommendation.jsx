@@ -84,10 +84,10 @@ const TicketRecommendation = () => {
       // Check if user drinks to decide whether to ask Question 4b
       if (newAnswers.drinks) {
         // User drinks - ask about drinking with partner (for both same and different batch)
-        setStep(3);
+        setStep(4); // Question 4b: drinksWithPartner is at index 4
       } else if (!value) {
         // User doesn't drink AND partner is different batch - ask if partner drinks (Question 4a)
-        setStep(3);
+        setStep(3); // Question 4a: partnerDrinks is at index 3
       } else {
         // User doesn't drink AND partner is same batch - no more questions
         const ticket = getTicketRecommendation(
