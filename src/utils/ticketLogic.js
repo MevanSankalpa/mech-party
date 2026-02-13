@@ -56,12 +56,21 @@ export const TICKET_TYPES = {
       "Welcome drink, premium dinner buffet, unlimited bites, unlimited liquor (for 2)",
     message: null,
   },
+  COUPLE_LIQUOR_PARTNER_DRINKS: {
+    name: "Couple with Liquor",
+    price: 22000,
+    earlyBird: 21000,
+    description:
+      "Welcome drink, premium dinner buffet, unlimited bites, unlimited liquor (for 2)",
+    message: "Includes liquor for your partner! 🍹",
+  },
 };
 
 export const getTicketRecommendation = (
   drinks,
   hasPartner,
   partnerSameBatch,
+  partnerDrinks,
   drinksWithPartner,
 ) => {
   // Logic based on questionnaire
@@ -91,9 +100,14 @@ export const getTicketRecommendation = (
     return TICKET_TYPES.NORMAL_SINGLE_LIQUOR_SAME_BATCH;
   }
 
-  // Has partner, different batch, no drinking
-  if (!drinks && hasPartner && !partnerSameBatch) {
+  // Has partner, different batch, user doesn't drink, partner doesn't drink
+  if (!drinks && hasPartner && !partnerSameBatch && !partnerDrinks) {
     return TICKET_TYPES.COUPLE;
+  }
+
+  // Has partner, different batch, user doesn't drink, partner drinks
+  if (!drinks && hasPartner && !partnerSameBatch && partnerDrinks) {
+    return TICKET_TYPES.COUPLE_LIQUOR_PARTNER_DRINKS;
   }
 
   // Has partner, different batch, drinking but not with partner
@@ -113,6 +127,7 @@ export const saveRecommendation = (
   drinks,
   hasPartner,
   partnerSameBatch,
+  partnerDrinks,
   drinksWithPartner,
   recommendedTicket,
 ) => {
@@ -120,6 +135,7 @@ export const saveRecommendation = (
     drinks,
     hasPartner,
     partnerSameBatch,
+    partnerDrinks,
     drinksWithPartner,
     recommendedTicket: recommendedTicket.name,
     message: recommendedTicket.message,
