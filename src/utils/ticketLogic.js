@@ -140,3 +140,14 @@ export const loadRecommendation = () => {
 export const clearRecommendation = () => {
   localStorage.removeItem("ticketRecommendation");
 };
+
+// Get ticket image path based on ticket type name
+export const getTicketImage = (ticketType) => {
+  const ticketImages = {
+    "Normal Single Person": "/tickets/single-ticket.jpg",
+    "Normal Single Person with Liquor": "/tickets/single-liquor-ticket.jpg",
+    "Couple": "/tickets/couple-ticket.jpg",
+    "Couple with Liquor": "/tickets/couple-liquor-ticket.jpg",
+  };
+  return ticketImages[ticketType] || "/tickets/single-ticket.jpg";
+};
