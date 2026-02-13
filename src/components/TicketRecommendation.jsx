@@ -300,7 +300,7 @@ const TicketRecommendation = () => {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.5 }}
               >
-                {step < 4 && (
+                {step <= 4 && (
                   <>
                     <h3 className="text-2xl text-white mb-2 text-center">
                       {questions[step]?.text}
