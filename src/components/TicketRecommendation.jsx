@@ -24,6 +24,7 @@ const TicketRecommendation = () => {
     drinks: null,
     hasPartner: null,
     partnerSameBatch: null,
+    partnerDrinks: null,
     drinksWithPartner: null,
   });
   const [recommendation, setRecommendation] = useState(null);
@@ -37,14 +38,16 @@ const TicketRecommendation = () => {
         drinks: stored.drinks,
         hasPartner: stored.hasPartner,
         partnerSameBatch: stored.partnerSameBatch ?? null,
-        drinksWithPartner: stored.drinksWithPartner,
+        partnerDrinks: stored.partnerDrinks ?? null,
+        drinksWithPartner: stored.drinksWithPartner ?? null,
       });
 
       const ticket = getTicketRecommendation(
         stored.drinks,
         stored.hasPartner,
         stored.partnerSameBatch ?? null,
-        stored.drinksWithPartner,
+        stored.partnerDrinks ?? null,
+        stored.drinksWithPartner ?? null,
       );
       setRecommendation(ticket);
       setShowRecommendation(true);
@@ -67,9 +70,10 @@ const TicketRecommendation = () => {
           value,
           null,
           null,
+          null,
         );
         setRecommendation(ticket);
-        saveRecommendation(newAnswers.drinks, value, null, null, ticket);
+        saveRecommendation(newAnswers.drinks, value, null, null, null, ticket);
         setShowRecommendation(true);
         setStep(4);
       } else {
@@ -77,16 +81,20 @@ const TicketRecommendation = () => {
         setStep(2);
       }
     } else if (question === "partnerSameBatch") {
-      // Check if user drinks to decide whether to ask Question 4
+      // Check if user drinks to decide whether to ask Question 4b
       if (newAnswers.drinks) {
-        // Ask about drinking with partner (for both same and different batch)
-        setStep(3);
+        // User drinks - ask about drinking with partner (for both same and different batch)
+        setStep(4); // Question 4b: drinksWithPartner is at index 4
+      } else if (!value) {
+        // User doesn't drink AND partner is different batch - ask if partner drinks (Question 4a)
+        setStep(3); // Question 4a: partnerDrinks is at index 3
       } else {
-        // Doesn't drink
+        // User doesn't drink AND partner is same batch - no more questions
         const ticket = getTicketRecommendation(
           newAnswers.drinks,
           newAnswers.hasPartner,
           value,
+          null,
           null,
         );
         setRecommendation(ticket);
@@ -95,16 +103,37 @@ const TicketRecommendation = () => {
           newAnswers.hasPartner,
           value,
           null,
+          null,
           ticket,
         );
         setShowRecommendation(true);
         setStep(4);
       }
+    } else if (question === "partnerDrinks") {
+      const ticket = getTicketRecommendation(
+        newAnswers.drinks,
+        newAnswers.hasPartner,
+        newAnswers.partnerSameBatch,
+        value,
+        null,
+      );
+      setRecommendation(ticket);
+      saveRecommendation(
+        newAnswers.drinks,
+        newAnswers.hasPartner,
+        newAnswers.partnerSameBatch,
+        value,
+        null,
+        ticket,
+      );
+      setShowRecommendation(true);
+      setStep(4);
     } else if (question === "drinksWithPartner") {
       const ticket = getTicketRecommendation(
         newAnswers.drinks,
         newAnswers.hasPartner,
         newAnswers.partnerSameBatch,
+        null,
         value,
       );
       setRecommendation(ticket);
@@ -112,6 +141,7 @@ const TicketRecommendation = () => {
         newAnswers.drinks,
         newAnswers.hasPartner,
         newAnswers.partnerSameBatch,
+        null,
         value,
         ticket,
       );
@@ -126,6 +156,7 @@ const TicketRecommendation = () => {
       drinks: null,
       hasPartner: null,
       partnerSameBatch: null,
+      partnerDrinks: null,
       drinksWithPartner: null,
     });
     setRecommendation(null);
@@ -153,6 +184,11 @@ const TicketRecommendation = () => {
       text: "Is your partner from the same batch and department? 🎓",
       subtitle: "20th Batch, Mechanical Engineering, University of Moratuwa",
       key: "partnerSameBatch",
+    },
+    {
+      id: "partnerDrinks",
+      text: "Does your partner drink? 🍹",
+      key: "partnerDrinks",
     },
     {
       id: "drinksWithPartner",
@@ -218,6 +254,23 @@ const TicketRecommendation = () => {
                   </span>
                 </div>
               )}
+              {!answers.drinks &&
+                answers.hasPartner &&
+                answers.partnerSameBatch === false &&
+                answers.partnerDrinks !== null && (
+                  <div className="flex items-center justify-between text-gray-300">
+                    <span>Does your partner drink? 🍹</span>
+                    <span
+                      className={
+                        answers.partnerDrinks
+                          ? "text-green-400"
+                          : "text-red-400"
+                      }
+                    >
+                      {answers.partnerDrinks ? "Yes ✓" : "No ✗"}
+                    </span>
+                  </div>
+                )}
               {answers.drinks &&
                 answers.hasPartner &&
                 answers.drinksWithPartner !== null && (
@@ -247,7 +300,7 @@ const TicketRecommendation = () => {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.5 }}
               >
-                {step < 4 && (
+                {step <= 4 && (
                   <>
                     <h3 className="text-2xl text-white mb-2 text-center">
                       {questions[step]?.text}
