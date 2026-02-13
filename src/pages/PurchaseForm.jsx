@@ -15,7 +15,31 @@ import {
   Upload,
 } from "lucide-react";
 
+import w1 from "../assets/images/dress/women/w1.jpeg";
+import w2 from "../assets/images/dress/women/w2.jpeg";
+import w3 from "../assets/images/dress/women/w3.jpeg";
+import w4 from "../assets/images/dress/women/w4.jpeg";
+
+import m1 from "../assets/images/dress/men/m1.jpeg";
+import m2 from "../assets/images/dress/men/m2.jpeg";
+import m3 from "../assets/images/dress/men/m3.jpeg";
+import m4 from "../assets/images/dress/men/m4.webp";
+
 const PURCHASE_FORM_DRAFT_KEY = "purchaseFormDraft";
+
+const MEN = {
+  1: m1,
+  2: m2,
+  3: m3,
+  4: m4,
+};
+
+const WOMEN = {
+  1: w1,
+  2: w2,
+  3: w3,
+  4: w4,
+};
 
 const INDEX_OPTIONS = [
   "200002L",
@@ -389,6 +413,9 @@ const PurchaseForm = () => {
             <h2 className="text-3xl font-bold text-white mb-6 text-center">
               Your Selected Ticket
             </h2>
+            <p className="text-gray-300 mb-8 text-center">
+              Collect your ticket at the entrance
+            </p>
             <div className="flex flex-col items-center">
               <img
                 src={getTicketImage(recommendedTicket)}
@@ -439,6 +466,9 @@ const PurchaseForm = () => {
                   Payment details received successfully. We&apos;ll contact you
                   soon with further updates.
                 </p>
+                <p className="text-gray-300 mb-8">
+                  Collect your ticket at the entrance
+                </p>
                 <Link
                   to="/"
                   className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold px-8 py-3 rounded-md hover:opacity-90 transition-opacity"
@@ -467,9 +497,9 @@ const PurchaseForm = () => {
                     {[1, 2, 3, 4].map((num) => (
                       <img
                         key={`men-${num}`}
-                        src={`/dress-code/men-${num}.jpg`}
+                        src={MEN[num]}
                         alt={`Men formal attire ${num}`}
-                        className="rounded-lg shadow-lg w-full h-auto border-2 border-gray-700 hover:border-yellow-400 transition-colors"
+                        className="rounded-lg shadow-lg w-full h-44 md:h-52 object-cover border-2 border-gray-700 hover:border-yellow-400 transition-colors"
                       />
                     ))}
                   </div>
@@ -488,9 +518,9 @@ const PurchaseForm = () => {
                     {[1, 2, 3, 4].map((num) => (
                       <img
                         key={`women-${num}`}
-                        src={`/dress-code/women-${num}.jpg`}
+                        src={WOMEN[num]}
                         alt={`Women formal attire ${num}`}
-                        className="rounded-lg shadow-lg w-full h-auto border-2 border-gray-700 hover:border-yellow-400 transition-colors"
+                        className="rounded-lg shadow-lg w-full h-44 md:h-52 object-cover border-2 border-gray-700 hover:border-yellow-400 transition-colors"
                       />
                     ))}
                   </div>

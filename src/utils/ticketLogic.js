@@ -1,6 +1,11 @@
 // Ticket recommendation logic based on user preferences
+import singleTicket from "../assets/images/tickets/single-ticket.jpeg";
+import singleLiquorTicket from "../assets/images/tickets/single-liquor-ticket.jpeg";
+import coupleTicket from "../assets/images/tickets/couple-ticket.jpeg";
+import coupleLiquorTicket from "../assets/images/tickets/couple-liquor-ticket.jpeg";
 
 export const EARLY_BIRD_ON = true;
+export const EARLY_BIRD_DEADLINE = new Date("2026-02-21 23:59:59");
 
 export const TICKET_TYPES = {
   NORMAL_SINGLE: {
@@ -144,10 +149,10 @@ export const clearRecommendation = () => {
 // Get ticket image path based on ticket type name
 export const getTicketImage = (ticketType) => {
   const ticketImages = {
-    "Normal Single Person": "/tickets/single-ticket.jpg",
-    "Normal Single Person with Liquor": "/tickets/single-liquor-ticket.jpg",
-    "Couple": "/tickets/couple-ticket.jpg",
-    "Couple with Liquor": "/tickets/couple-liquor-ticket.jpg",
+    [TICKET_TYPES.NORMAL_SINGLE.name]: singleTicket,
+    [TICKET_TYPES.NORMAL_SINGLE_LIQUOR.name]: singleLiquorTicket,
+    [TICKET_TYPES.COUPLE.name]: coupleTicket,
+    [TICKET_TYPES.COUPLE_LIQUOR.name]: coupleLiquorTicket,
   };
-  return ticketImages[ticketType] || "/tickets/single-ticket.jpg";
+  return ticketImages[ticketType] || singleTicket;
 };
