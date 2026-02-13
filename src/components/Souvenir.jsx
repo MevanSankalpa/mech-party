@@ -80,14 +80,14 @@ const Souvenir = () => {
             <div className="relative inline-block">
               {/* Glow effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg blur-3xl opacity-30 animate-pulse"></div>
-              
+
               {/* Image */}
-              <img
+              {/* <img
                 src="/souvenir-preview.png"
                 alt="Personalized Souvenir"
                 className="relative rounded-lg shadow-2xl max-w-full h-auto mx-auto border-4 border-yellow-400/30"
                 style={{ maxWidth: "400px" }}
-              />
+              /> */}
             </div>
           </motion.div>
 
