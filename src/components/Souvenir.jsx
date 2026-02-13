@@ -1,6 +1,6 @@
-/* eslint-disable no-unused-vars */
+// Note: motion is used as a JSX component (<motion.div>, <motion.h2>, etc.)
+// eslint-disable-next-line no-unused-vars
 import { motion, useInView } from "framer-motion";
-/* eslint-enable no-unused-vars */
 import { useRef } from "react";
 import { Gift, Star, Sparkles } from "lucide-react";
 

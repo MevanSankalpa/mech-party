@@ -300,7 +300,7 @@ const TicketRecommendation = () => {
                   />
                 </div>
                 
-                <div className="bg-linear-to-br from-blue-600 to-purple-600 rounded-lg p-8 mb-6">
+                <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg p-8 mb-6">
                   <h4 className="text-2xl font-bold text-white mb-4">
                     {recommendation?.name}
                   </h4>

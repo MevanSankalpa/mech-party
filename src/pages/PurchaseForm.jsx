@@ -373,7 +373,7 @@ const PurchaseForm = () => {
             Back to Home
           </Link>
           {recommendedTicket && (
-            <div className="bg-linear-to-r from-blue-600 to-purple-600 px-4 py-2 rounded-full">
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 rounded-full">
               <span className="text-white text-sm font-semibold">
                 Recommended: {recommendedTicket}
               </span>
@@ -441,7 +441,7 @@ const PurchaseForm = () => {
                 </p>
                 <Link
                   to="/"
-                  className="inline-flex items-center gap-2 bg-linear-to-r from-blue-600 to-purple-600 text-white font-semibold px-8 py-3 rounded-md hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold px-8 py-3 rounded-md hover:opacity-90 transition-opacity"
                 >
                   <Home size={18} />
                   Go back to home
@@ -680,7 +680,7 @@ const PurchaseForm = () => {
                 <button
                   type="submit"
                   disabled={submitLoading || imageUploadLoading || !imageUrl}
-                  className="w-full bg-linear-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 rounded-md hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 rounded-md hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {submitLoading ? "Submitting..." : "Submit"}
                 </button>

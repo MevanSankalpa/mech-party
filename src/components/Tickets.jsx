@@ -68,7 +68,7 @@ const Tickets = () => {
               className="bg-black rounded-lg overflow-hidden border border-gray-800 hover:border-white transition-colors"
             >
               <div
-                className={`bg-linear-to-br ${ticket.gradient} p-6 flex items-center justify-center`}
+                className={`bg-gradient-to-br ${ticket.gradient} p-6 flex items-center justify-center`}
               >
                 <ticket.icon size={60} className="text-white" />
               </div>
