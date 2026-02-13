@@ -8,6 +8,7 @@ import {
   saveRecommendation,
   loadRecommendation,
   clearRecommendation,
+  getTicketImage,
   EARLY_BIRD_ON,
 } from "../utils/ticketLogic";
 import { Check, X, RotateCcw } from "lucide-react";
@@ -288,6 +289,17 @@ const TicketRecommendation = () => {
                 <h3 className="text-3xl text-white mb-4">
                   🎉 Perfect Match Found!
                 </h3>
+                
+                {/* Ticket Image */}
+                <div className="mb-6">
+                  <img
+                    src={getTicketImage(recommendation?.name)}
+                    alt={recommendation?.name}
+                    className="mx-auto rounded-lg shadow-2xl max-w-full h-auto border-4 border-gray-700 hover:scale-105 transition-transform duration-300"
+                    style={{ maxWidth: '600px' }}
+                  />
+                </div>
+                
                 <div className="bg-linear-to-br from-blue-600 to-purple-600 rounded-lg p-8 mb-6">
                   <h4 className="text-2xl font-bold text-white mb-4">
                     {recommendation?.name}

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   loadRecommendation,
   clearRecommendation,
+  getTicketImage,
   TICKET_TYPES,
   EARLY_BIRD_ON,
 } from "../utils/ticketLogic";
@@ -382,6 +383,35 @@ const PurchaseForm = () => {
       </div>
       {/* Google Form Embed */}
       <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Ticket Preview */}
+        {recommendedTicket && (
+          <div className="mb-8 bg-gray-900 rounded-lg p-8 border border-gray-800">
+            <h2 className="text-3xl font-bold text-white mb-6 text-center">
+              Your Selected Ticket
+            </h2>
+            <div className="flex flex-col items-center">
+              <img
+                src={getTicketImage(recommendedTicket)}
+                alt={recommendedTicket}
+                className="rounded-lg shadow-2xl max-w-full h-auto border-4 border-blue-600/50 mb-4"
+                style={{ maxWidth: "600px" }}
+              />
+              <div className="bg-black/50 backdrop-blur-sm rounded-full px-6 py-3 border border-gray-700">
+                <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
+                  <span className="text-white font-semibold text-lg">
+                    {recommendedTicket}
+                  </span>
+                  <span className="hidden md:inline text-gray-400">•</span>
+                  <span className="text-yellow-400 font-bold text-lg">
+                    {EARLY_BIRD_ON ? "Early Bird: " : ""}Rs{" "}
+                    {selectedTicketPrice?.toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="bg-gray-900 rounded-lg p-8 border border-gray-800">
           {!isSubmitSuccess && (
             <>
@@ -395,27 +425,85 @@ const PurchaseForm = () => {
           )}
 
           {isSubmitSuccess ? (
-            <div className="bg-black rounded-lg p-8 border border-gray-700 text-center">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <PartyPopper size={32} className="text-yellow-400" />
-                <CheckCircle size={34} className="text-green-500" />
-                <PartyPopper size={32} className="text-yellow-400" />
+            <>
+              <div className="bg-black rounded-lg p-8 border border-gray-700 text-center">
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <PartyPopper size={32} className="text-yellow-400" />
+                  <CheckCircle size={34} className="text-green-500" />
+                  <PartyPopper size={32} className="text-yellow-400" />
+                </div>
+                <h2 className="text-3xl font-bold text-white mb-3">
+                  Your ticket is secured!
+                </h2>
+                <p className="text-gray-300 mb-8">
+                  Payment details received successfully. We&apos;ll contact you
+                  soon with further updates.
+                </p>
+                <Link
+                  to="/"
+                  className="inline-flex items-center gap-2 bg-linear-to-r from-blue-600 to-purple-600 text-white font-semibold px-8 py-3 rounded-md hover:opacity-90 transition-opacity"
+                >
+                  <Home size={18} />
+                  Go back to home
+                </Link>
               </div>
-              <h2 className="text-3xl font-bold text-white mb-3">
-                Your ticket is secured!
-              </h2>
-              <p className="text-gray-300 mb-8">
-                Payment details received successfully. We&apos;ll contact you
-                soon with further updates.
-              </p>
-              <Link
-                to="/"
-                className="inline-flex items-center gap-2 bg-linear-to-r from-blue-600 to-purple-600 text-white font-semibold px-8 py-3 rounded-md hover:opacity-90 transition-opacity"
-              >
-                <Home size={18} />
-                Go back to home
-              </Link>
-            </div>
+
+              {/* Dress Code Section */}
+              <section className="mt-16 bg-gray-900 p-8 rounded-lg border border-gray-800">
+                <h2 className="text-4xl font-bold text-center text-white mb-8">
+                  🎩 Dress Code 👗
+                </h2>
+
+                {/* Men's Dress Code */}
+                <div className="mb-12">
+                  <h3 className="text-2xl font-semibold text-yellow-400 mb-4">
+                    For Gentlemen
+                  </h3>
+                  <p className="text-gray-300 mb-6 text-lg">
+                    Formal wear: Trousers, Blazer, with or without Tie or Bow
+                  </p>
+
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {[1, 2, 3, 4].map((num) => (
+                      <img
+                        key={`men-${num}`}
+                        src={`/dress-code/men-${num}.jpg`}
+                        alt={`Men formal attire ${num}`}
+                        className="rounded-lg shadow-lg w-full h-auto border-2 border-gray-700 hover:border-yellow-400 transition-colors"
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Women's Dress Code */}
+                <div>
+                  <h3 className="text-2xl font-semibold text-yellow-400 mb-4">
+                    For Ladies
+                  </h3>
+                  <p className="text-gray-300 mb-6 text-lg">
+                    Formal, Semi-formal, Frock, or Saree
+                  </p>
+
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {[1, 2, 3, 4].map((num) => (
+                      <img
+                        key={`women-${num}`}
+                        src={`/dress-code/women-${num}.jpg`}
+                        alt={`Women formal attire ${num}`}
+                        className="rounded-lg shadow-lg w-full h-auto border-2 border-gray-700 hover:border-yellow-400 transition-colors"
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-8 border-t border-gray-700 text-center">
+                  <p className="text-gray-400 text-sm">
+                    💡 Tip: Dress to impress! These are examples of appropriate
+                    formal attire for our event.
+                  </p>
+                </div>
+              </section>
+            </>
           ) : (
             <form
               onSubmit={handleSubmitForm}
