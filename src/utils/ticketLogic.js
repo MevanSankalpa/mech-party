@@ -4,8 +4,8 @@ import singleLiquorTicket from "../assets/images/tickets/single-liquor-ticket.jp
 import coupleTicket from "../assets/images/tickets/couple-ticket.jpeg";
 import coupleLiquorTicket from "../assets/images/tickets/couple-liquor-ticket.jpeg";
 
-export const EARLY_BIRD_ON = true;
-export const EARLY_BIRD_DEADLINE = new Date("2026-02-21 23:59:59");
+export const EARLY_BIRD_DEADLINE = new Date("2026-02-27T23:59:59");
+export const EARLY_BIRD_ON = Date.now() <= EARLY_BIRD_DEADLINE.getTime();
 
 export const TICKET_TYPES = {
   NORMAL_SINGLE: {
