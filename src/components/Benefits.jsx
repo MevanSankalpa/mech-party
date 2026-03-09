@@ -10,7 +10,7 @@ const Benefits = () => {
   const benefits = [
     {
       icon: Utensils,
-      title: "Premium Dinner Buffet",
+      title: "Dinner Buffet",
       description:
         "Savor a delicious spread of international and local cuisine",
       emoji: "🍽️",
@@ -18,7 +18,7 @@ const Benefits = () => {
     {
       icon: Wine,
       title: "Unlimited Liquor",
-      description: "Premium drinks flowing all night long",
+      description: "Drinks flowing all night long",
       emoji: "🍹",
     },
     {
@@ -42,7 +42,7 @@ const Benefits = () => {
             What You Get
           </h2>
           <p className="text-gray-400 text-lg">
-            All-inclusive premium experience for an unforgettable night
+            All-inclusive experience for an unforgettable night
           </p>
         </motion.div>
 

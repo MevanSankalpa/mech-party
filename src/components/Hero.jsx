@@ -66,10 +66,10 @@ const Hero = () => {
           </h1>
           <div className="w-32 h-1 bg-white mx-auto mb-8"></div>
           <p className="text-xl md:text-2xl text-gray-300 mb-2">
-            14th March 2026
+            28th March 2026
           </p>
           <p className="text-lg md:text-xl text-gray-400 mb-8">
-            Water's Edge Hotel
+            Rest House Kesbewa
           </p>
           <motion.button
             whileHover={{ scale: 1.05 }}

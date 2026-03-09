@@ -1,8 +1,8 @@
 // Ticket recommendation logic based on user preferences
-import singleTicket from "../assets/images/tickets/single-ticket.jpeg";
-import singleLiquorTicket from "../assets/images/tickets/single-liquor-ticket.jpeg";
-import coupleTicket from "../assets/images/tickets/couple-ticket.jpeg";
-import coupleLiquorTicket from "../assets/images/tickets/couple-liquor-ticket.jpeg";
+// import singleTicket from "../assets/images/tickets/single-ticket.jpeg";
+// import singleLiquorTicket from "../assets/images/tickets/single-liquor-ticket.jpeg";
+// import coupleTicket from "../assets/images/tickets/couple-ticket.jpeg";
+// import coupleLiquorTicket from "../assets/images/tickets/couple-liquor-ticket.jpeg";
 
 export const EARLY_BIRD_DEADLINE = new Date("2026-02-27T23:59:59");
 export const EARLY_BIRD_ON = Date.now() <= EARLY_BIRD_DEADLINE.getTime();
@@ -10,58 +10,57 @@ export const EARLY_BIRD_ON = Date.now() <= EARLY_BIRD_DEADLINE.getTime();
 export const TICKET_TYPES = {
   NORMAL_SINGLE: {
     name: "Normal Single Person",
-    price: 11000,
+    price: 6800,
     earlyBird: 9900,
-    description: "Welcome drink, premium dinner buffet, unlimited bites",
+    description: "Welcome drink, dinner buffet, unlimited bites",
     message: null,
   },
   NORMAL_SINGLE_LIQUOR: {
     name: "Normal Single Person with Liquor",
-    price: 12500,
+    price: 9000,
     earlyBird: 11500,
     description:
-      "Welcome drink, premium dinner buffet, unlimited bites, unlimited liquor",
+      "Welcome drink, dinner buffet, unlimited bites, unlimited liquor",
     message: null,
   },
   NORMAL_SINGLE_SAME_BATCH: {
     name: "Normal Single Person",
-    price: 11000,
+    price: 6800,
     earlyBird: 9900,
-    description: "Welcome drink, premium dinner buffet, unlimited bites",
+    description: "Welcome drink, dinner buffet, unlimited bites",
     message:
       "Since your partner is from the same batch, they'll have their own ticket! 🎉",
   },
   NORMAL_SINGLE_LIQUOR_SAME_BATCH: {
     name: "Normal Single Person with Liquor",
-    price: 12500,
+    price: 9000,
     earlyBird: 11500,
     description:
-      "Welcome drink, premium dinner buffet, unlimited bites, unlimited liquor",
+      "Welcome drink, dinner buffet, unlimited bites, unlimited liquor",
     message:
       "Since your partner is from the same batch, they'll have their own ticket! 🎉",
   },
   COUPLE: {
     name: "Couple",
-    price: 20000,
+    price: 13500,
     earlyBird: 19000,
-    description:
-      "Welcome drink, premium dinner buffet, unlimited bites (for 2)",
+    description: "Welcome drink, dinner buffet, unlimited bites (for 2)",
     message: null,
   },
   COUPLE_LIQUOR: {
     name: "Couple with Liquor",
-    price: 22000,
+    price: 16500,
     earlyBird: 21000,
     description:
-      "Welcome drink, premium dinner buffet, unlimited bites, unlimited liquor (for 2)",
+      "Welcome drink, dinner buffet, unlimited bites, unlimited liquor (for 2)",
     message: null,
   },
   COUPLE_LIQUOR_PARTNER_DRINKS: {
     name: "Couple with Liquor",
-    price: 22000,
+    price: 16500,
     earlyBird: 21000,
     description:
-      "Welcome drink, premium dinner buffet, unlimited bites, unlimited liquor (for 2)",
+      "Welcome drink, dinner buffet, unlimited bites, unlimited liquor (for 2)",
     message: "Includes liquor for your partner! 🍹",
   },
 };
@@ -142,11 +141,11 @@ export const saveRecommendation = (
     timestamp: Date.now(),
   };
 
-  localStorage.setItem("ticketRecommendation", JSON.stringify(data));
+  localStorage.setItem("zynentiaTicketRecommendation", JSON.stringify(data));
 };
 
 export const loadRecommendation = () => {
-  const stored = localStorage.getItem("ticketRecommendation");
+  const stored = localStorage.getItem("zynentiaTicketRecommendation");
   if (stored) {
     try {
       return JSON.parse(stored);
@@ -159,16 +158,16 @@ export const loadRecommendation = () => {
 };
 
 export const clearRecommendation = () => {
-  localStorage.removeItem("ticketRecommendation");
+  localStorage.removeItem("zynentiaTicketRecommendation");
 };
 
 // Get ticket image path based on ticket type name
-export const getTicketImage = (ticketType) => {
-  const ticketImages = {
-    [TICKET_TYPES.NORMAL_SINGLE.name]: singleTicket,
-    [TICKET_TYPES.NORMAL_SINGLE_LIQUOR.name]: singleLiquorTicket,
-    [TICKET_TYPES.COUPLE.name]: coupleTicket,
-    [TICKET_TYPES.COUPLE_LIQUOR.name]: coupleLiquorTicket,
-  };
-  return ticketImages[ticketType] || singleTicket;
-};
+// export const getTicketImage = (ticketType) => {
+//   const ticketImages = {
+//     [TICKET_TYPES.NORMAL_SINGLE.name]: singleTicket,
+//     [TICKET_TYPES.NORMAL_SINGLE_LIQUOR.name]: singleLiquorTicket,
+//     [TICKET_TYPES.COUPLE.name]: coupleTicket,
+//     [TICKET_TYPES.COUPLE_LIQUOR.name]: coupleLiquorTicket,
+//   };
+//   return ticketImages[ticketType] || singleTicket;
+// };
