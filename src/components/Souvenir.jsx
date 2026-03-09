@@ -119,12 +119,12 @@ const Souvenir = () => {
             </div>
 
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 border border-gray-700">
-              <div className="text-4xl mb-3">💎</div>
+              <div className="text-4xl mb-3">🚀</div>
               <h3 className="text-white font-semibold text-lg mb-2">
-                Premium Quality
+                Limited Edition
               </h3>
               <p className="text-gray-400 text-sm">
-                A keepsake you'll treasure for years to come
+                Only available to event attendees—get yours today
               </p>
             </div>
           </motion.div>

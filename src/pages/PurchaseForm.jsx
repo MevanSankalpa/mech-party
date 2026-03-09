@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   loadRecommendation,
   clearRecommendation,
-  getTicketImage,
   TICKET_TYPES,
   EARLY_BIRD_ON,
 } from "../utils/ticketLogic";
@@ -417,12 +416,6 @@ const PurchaseForm = () => {
               Collect your ticket at the entrance
             </p>
             <div className="flex flex-col items-center">
-              <img
-                src={getTicketImage(recommendedTicket)}
-                alt={recommendedTicket}
-                className="rounded-lg shadow-2xl max-w-full h-auto border-4 border-blue-600/50 mb-4"
-                style={{ maxWidth: "600px" }}
-              />
               <div className="bg-black/50 backdrop-blur-sm rounded-full px-6 py-3 border border-gray-700">
                 <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
                   <span className="text-white font-semibold text-lg">

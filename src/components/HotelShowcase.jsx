@@ -1,25 +1,22 @@
 /* eslint-disable no-unused-vars */
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import hotelBand from "../assets/images/hotel/hotel-1.jpeg";
+import hotelImg1 from "../assets/images/hotel/hotel-1.jpg";
+import hotelImg2 from "../assets/images/hotel/hotel-2.jpg";
+import hotelImg3 from "../assets/images/hotel/hotel-3.jpg";
 
 const HotelShowcase = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   // Placeholder images for luxury hotel/banquet halls
-  const images = [
-    "https://www.watersedge.lk/wp-content/uploads/2017/12/The-View-imag2.jpg",
-    "https://www.watersedge.lk/wp-content/uploads/2017/12/The-View-image-1.jpg",
-    // "https://images.unsplash.com/photo-1470229538611-16ba8c7ffbd7?w=800",
-    hotelBand,
-  ];
+  const images = [hotelImg1, hotelImg2, hotelImg3];
 
   return (
     <section
       id="hotel-showcase"
       ref={ref}
-      className="min-h-screen bg-black py-20 px-4"
+      className="min-h-[50vh] bg-black py-20 px-4"
     >
       <div className="max-w-7xl mx-auto">
         <motion.div
@@ -29,7 +26,7 @@ const HotelShowcase = () => {
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-4">
-            Water's Edge Hotel
+            Rest House Kesbewa
           </h2>
           <p className="text-gray-400 text-lg">
             Experience luxury and elegance at one of Colombo's finest venues
